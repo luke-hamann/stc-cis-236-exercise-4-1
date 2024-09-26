@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MovieList.Models;
 
 namespace MovieList.Controllers
@@ -15,7 +16,8 @@ namespace MovieList.Controllers
 
         public IActionResult Index()
         {
-            var movies = context.Movies.OrderBy(m => m.Name).ToList();
+            var movies = context.Movies.Include(m => m.Genre)
+                .OrderBy(m => m.Name).ToList();
             return View(movies);
         }
     }
